@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1000</width>
+    <height>838</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Simple Word Generator</string>
+  </property>
+  <property name="locale">
+   <locale language="English" country="Canada"/>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QLabel" name="labelVowels">
+        <property name="text">
+         <string>Vowels</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPlainTextEdit" name="textVowels">
+        <property name="tabChangesFocus">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelConsonants">
+        <property name="text">
+         <string>Consonants</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPlainTextEdit" name="textConsonants">
+        <property name="tabChangesFocus">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelBanned_Clusters">
+        <property name="text">
+         <string>Banned Clusters</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPlainTextEdit" name="textBanned_Clusters">
+        <property name="tabChangesFocus">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelRomanization_Mapping">
+        <property name="text">
+         <string>Romanization Mapping</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPlainTextEdit" name="textRomanization_Mapping">
+        <property name="tabChangesFocus">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelConstraints">
+        <property name="text">
+         <string>Constraints</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="textConstraints"/>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelSyllable_Maximum">
+        <property name="text">
+         <string>Syllable Maximum</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="spinSyllable_Maximum">
+        <property name="suffix">
+         <string> Syllables</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelSyllable_Probability">
+        <property name="text">
+         <string>Syllable Probability</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QDoubleSpinBox" name="spinSyllable_Probability">
+        <property name="singleStep">
+         <double>0.050000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelMinimum_Letters">
+        <property name="text">
+         <string>Minimum Number of Phonemes</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="spinMinimum_Phonemes">
+        <property name="suffix">
+         <string> Phonemes</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelCredit">
+        <property name="text">
+         <string>Made by ika4422 | With Contributions from umi4422 &amp; are4422</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_6">
+      <item>
+       <widget class="QLabel" name="labelWords">
+        <property name="text">
+         <string>Number of Words</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="spinNumberWords">
+        <property name="suffix">
+         <string> Words</string>
+        </property>
+        <property name="maximum">
+         <number>65536</number>
+        </property>
+        <property name="stepType">
+         <enum>QAbstractSpinBox::StepType::DefaultStepType</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QCheckBox" name="checkRepeated_Vowels">
+          <property name="text">
+           <string>Ban Repeated Vowels</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkRepeated_Consonants">
+          <property name="text">
+           <string>Ban Repeated Consonants</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QPushButton" name="buttonGenerate">
+        <property name="text">
+         <string>Generate Words</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPlainTextEdit" name="textGeneratedWords">
+        <property name="tabChangesFocus">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1000</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionFileSave"/>
+    <addaction name="actionFileLoad"/>
+    <addaction name="separator"/>
+    <addaction name="actionFileExport"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionHelpApplication_Guide"/>
+    <addaction name="actionHelpGithub_Repository"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QStatusBar" name="appStatusBar"/>
+  <action name="actionFileExport">
+   <property name="text">
+    <string>Export...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
+   </property>
+  </action>
+  <action name="actionHelpApplication_Guide">
+   <property name="text">
+    <string>Application Guide</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
+   </property>
+  </action>
+  <action name="actionFileSave">
+   <property name="text">
+    <string>Save Config...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionFileLoad">
+   <property name="text">
+    <string>Load Config...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionHelpGithub_Repository">
+   <property name="text">
+    <string>Github Repository</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
