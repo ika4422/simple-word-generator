@@ -38,9 +38,9 @@ The following symbols are used to define syllabic structure with each phoneme se
 
 Class Symbol | Meaning
 -------------|--------
-\*           | Optional phoneme (currently a constant 0.5 probability during generation)
-V            | Vowel
-C            | Consonant
+\*           |Optional phoneme (currently a constant 0.5 probability during generation)
+V            |Vowel
+C            |Consonant
 
 For example, `*C,V,C` defines a syllable as optionally having a starting vowel, always a vowel and always a final consonant.
 

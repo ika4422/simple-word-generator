@@ -5,6 +5,7 @@ import pathlib
 import json
 import csv
 import random
+import re
 
 # library imports
 from PySide6 import QtWidgets
@@ -18,6 +19,12 @@ def stripChars(string):
         string = string.replace(i, '')
 
     return string
+
+def multiReplace(s, replacements):
+    substrs = sorted(replacements.keys(), key=len, reverse=True)
+    pattern = re.compile("|".join(map(re.escape, substrs)))
+    
+    return pattern.sub(lambda m: replacements[m.group(0)], s)
 
 # function to generate singular word
 def wordGeneration(
@@ -345,29 +352,18 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             # initialize variables
             ipa_words = words
             words = []
-            romanizationMap = []
+            romanizationMap = {}
 
-            # parse romanization map into list of tuples
-            for set in stripChars(self.textRomanization_Mapping.toPlainText()).split(','): # format: `d:d,f:f,a:â` `ipa:roman` to [(d,d), (f,f), (a,â)]
+            # parse romanization map into dict
+            for set in stripChars(self.textRomanization_Mapping.toPlainText()).split(','):
                 splitSet = set.split(':')
-                romanizationMap.append((splitSet[0], splitSet[1]))
+                ipa_char = splitSet[0].strip()
+                roman_char = splitSet[1].strip()
+                romanizationMap[ipa_char] = roman_char
             
             # apply romanization rules to ipa words
             for ipa_word in ipa_words:
-                roman_word = ipa_word
-
-                # apply rules from most affected ipa chars to least
-                for ipa, roman in sorted(romanizationMap, key=lambda kv: -len(kv[0])):
-                    if ipa == '':
-                        continue
-
-                    k = ipa.strip()
-                    v = roman.strip()
-
-                    # apply conversions
-                    roman_word = roman_word.replace(k, v)
-                
-                # create text line and append to list of lines
+                roman_word = multiReplace(ipa_word, romanizationMap)
                 words.append(f'{roman_word} : {ipa_word}')
 
         # sort alphabetically and convert to string for display
