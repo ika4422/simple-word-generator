@@ -294,11 +294,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def actionOpenGuide(self):
         # open to usage section of README on github repo
-        webbrowser.open("")
+        webbrowser.open("https://github.com/ika4422/simple-word-generator/tree/main?tab=readme-ov-file#usage")
 
     def actionOpenRepo(self):
         # open to github repo for project
-        webbrowser.open("")
+        webbrowser.open("https://github.com/ika4422/simple-word-generator")
 
     def generateWords(self):
         # clear the output field
