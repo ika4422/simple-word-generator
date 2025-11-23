@@ -14,30 +14,30 @@ from PySide6 import QtWidgets
 from WordGenerator import Ui_MainWindow
 
 # function to remove new lines and spaces from a string
-def stripChars(string):
+def strip_chars(string):
     for i in ['\n', ' ']:
         string = string.replace(i, '')
 
     return string
 
-def multiReplace(s, replacements):
-    substrs = sorted(replacements.keys(), key=len, reverse=True)
+def multi_replace(s, replacements):
+    substrs = sorted([str(key) for key in replacements.keys()], key=len, reverse=True)
     pattern = re.compile("|".join(map(re.escape, substrs)))
     
     return pattern.sub(lambda m: replacements[m.group(0)], s)
 
 # function to generate singular word
-def wordGeneration(
+def word_generation(
         vowels,
         consonants,
         constraints,
-        syllabicProbability,
-        syllabicLimit
+        syllabic_probability,
+        syllabic_limit
     ):
     word = []
 
     i = 0
-    while i < syllabicLimit:
+    while i < syllabic_limit:
         syllable = []
 
         # generate each phoneme at a time
@@ -65,42 +65,42 @@ def wordGeneration(
             i += 1
 
         # determine according to random probability if the next syllable is generated
-        if random.random() >= syllabicProbability:
+        if random.random() >= syllabic_probability:
             break
     
     return word
 
 # function to generate a list of words
-def wordListGeneration(
+def word_list_generation(
         vowels,
         consonants,
         constraints,
-        syllabicProbability,
-        syllabicLimit,
-        bannedClusters,
-        minimumPhonemes,
-        numWords
+        syllabic_probability,
+        syllabic_limit,
+        banned_clusters,
+        minimum_phonemes,
+        num_words
     ) -> list[str]:
     # initialize variables
-    bannedClusters = [s for s in bannedClusters if s != '']
+    banned_clusters = [s for s in banned_clusters if s != '']
 
-    wordList = []
+    word_list = []
     cycles = 0
 
     # generate words until the word list contains the wanted number of words
-    while len(wordList) < numWords:
+    while len(word_list) < num_words:
         # if the generation times out then display an error message instead of having an infinite loop
-        if cycles >= (numWords**2 + 1024):
+        if cycles >= (num_words ** 2 + 1024):
             QtWidgets.QMessageBox.critical(None, 'Error!', 'Word generation loop timed out! Consider checking that your settings can define any words.')
             break
 
         # call word generation method
-        word = wordGeneration(
+        word = word_generation(
             vowels,
             consonants,
             constraints,
-            syllabicProbability,
-            syllabicLimit
+            syllabic_probability,
+            syllabic_limit
         )
 
         # count number of phonemes in the word
@@ -116,12 +116,12 @@ def wordListGeneration(
         word_str = ''.join(syllables)
 
         # ensure that the generated word follows the defined rules before appending to word list
-        if not any(cluster in word_str for cluster in bannedClusters) and not num_phonemes < minimumPhonemes and not word_str in wordList:
-            wordList.append(word_str)
+        if not any(cluster in word_str for cluster in banned_clusters) and not num_phonemes < minimum_phonemes and not word_str in word_list:
+            word_list.append(word_str)
 
         cycles += 1
 
-    return wordList
+    return word_list
 
 # window class
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -130,18 +130,18 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
 
         # menu bar options
-        self.actionFileExport.triggered.connect(self.actionExport)
-        self.actionFileSave.triggered.connect(self.actionSaveConfig)
-        self.actionFileLoad.triggered.connect(self.actionLoadConfig)
-        self.actionHelpApplication_Guide.triggered.connect(self.actionOpenGuide)
-        self.actionHelpGithub_Repository.triggered.connect(self.actionOpenRepo)
+        self.actionFileExport.triggered.connect(self.action_export)
+        self.actionFileSave.triggered.connect(self.action_save_config)
+        self.actionFileLoad.triggered.connect(self.action_load_config)
+        self.actionHelpApplication_Guide.triggered.connect(self.action_open_guide)
+        self.actionHelpGithub_Repository.triggered.connect(self.action_open_repo)
 
         # triggers
-        self.buttonGenerate.clicked.connect(self.generateWords)
+        self.buttonGenerate.clicked.connect(self.generate_words)
 
-    def actionExport(self):
+    def action_export(self):
         # open file dialogue
-        filename, filter = QtWidgets.QFileDialog.getSaveFileName(
+        filename, file_filter = QtWidgets.QFileDialog.getSaveFileName(
             self,
             'Save Word List',
             '',
@@ -152,7 +152,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         
         # determine if file type is .csv or .txt
         is_csv = False
-        if (filter and 'csv' in filter.lower()) or (filename.lower().endswith('.csv')):
+        if (file_filter and 'csv' in file_filter.lower()) or (filename.lower().endswith('.csv')):
             is_csv = True
 
         # ensure file has file type in name
@@ -174,7 +174,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                     writer.writerow(['Romanization', 'IPA'])
 
                     # split line into roman and ipa words
-                    roman, ipa = '', ''
                     for line in lines:
                         if ' : ' in line:
                             roman, ipa = line.split(' : ', 1)
@@ -199,11 +198,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             QtWidgets.QMessageBox.critical(None, 'Error!', f'Failed to save {pathlib.Path(filename).name}: {e}')
             self.appStatusBar.showMessage(f'Failed to save {pathlib.Path(filename).name}!', 5000)
 
-    def actionSaveConfig(self):
+    def action_save_config(self):
         # fetch data from fields and insert into dictionary
-        saveData = {}
+        save_data = {}
         try:
-            saveData = {
+            save_data = {
                 'vowels': self.textVowels.toPlainText(),
                 'consonants': self.textConsonants.toPlainText(),
                 'bannedClusters': self.textBanned_Clusters.toPlainText(),
@@ -236,17 +235,17 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         try:
             # save to json file containing dictionary
             with open(filename, 'w', encoding='utf-8') as f:
-                json.dump(saveData, f, ensure_ascii=False, indent=2)
+                json.dump(save_data, f, ensure_ascii=False, indent=2)
             try:
                 # successful write to file
                 self.appStatusBar.showMessage(f'Configuration saved to {pathlib.Path(filename).name}', 5000)
             except Exception:
                 pass
         # display error popup if save fails
-        except Exception as e:
+        except Exception:
             self.appStatusBar.showMessage('Failed to save configuration', 5000)
 
-    def actionLoadConfig(self):
+    def action_load_config(self):
         # open file open dialogue and exit method if none selected
         filename, _ = QtWidgets.QFileDialog.getOpenFileName(
             self,
@@ -262,7 +261,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             with open(filename, 'r', encoding='utf-8') as f:
                 data = json.load(f)
         # display error popup if load fails
-        except Exception as e:
+        except Exception:
             self.appStatusBar.showMessage('Failed to load configuration', 5000)
             return
 
@@ -299,52 +298,54 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         except Exception:
             pass
 
-    def actionOpenGuide(self):
-        # open to usage section of README on github repo
+    @staticmethod
+    def action_open_guide():
+        # open to usage section of README on GitHub repo
         webbrowser.open("https://github.com/ika4422/simple-word-generator/tree/main?tab=readme-ov-file#usage")
 
-    def actionOpenRepo(self):
-        # open to github repo for project
+    @staticmethod
+    def action_open_repo():
+        # open to GitHub repo for project
         webbrowser.open("https://github.com/ika4422/simple-word-generator")
 
-    def generateWords(self):
+    def generate_words(self):
         # clear the output field
         self.textGeneratedWords.clear()
 
         # fetch data from input fields and serialize data
-        consonants = stripChars(self.textConsonants.toPlainText()).split(',')
-        vowels = stripChars(self.textVowels.toPlainText()).split(',')
+        consonants = strip_chars(self.textConsonants.toPlainText()).split(',')
+        vowels = strip_chars(self.textVowels.toPlainText()).split(',')
 
-        constraints = stripChars(self.textConstraints.text().upper()).split(',')
+        constraints = strip_chars(self.textConstraints.text().upper()).split(',')
 
-        syllableProbability = self.spinSyllable_Probability.value()
-        syllableMaximum = self.spinSyllable_Maximum.value()
+        syllable_probability = self.spinSyllable_Probability.value()
+        syllable_maximum = self.spinSyllable_Maximum.value()
         
-        bannedClusters = stripChars(self.textBanned_Clusters.toPlainText()).split(',')
-        bannedClusters = [s for s in bannedClusters if s != '']
+        banned_clusters = strip_chars(self.textBanned_Clusters.toPlainText()).split(',')
+        banned_clusters = [s for s in banned_clusters if s != '']
 
-        minimumPhonemes = self.spinMinimum_Phonemes.value()
-        numberWords = self.spinNumberWords.value()
+        minimum_phonemes = self.spinMinimum_Phonemes.value()
+        number_words = self.spinNumberWords.value()
 
-        # add to bannedClusters list repeated vowels or consonants if relevant checkbox is checked
+        # add to banned_clusters list repeated vowels or consonants if relevant checkbox is checked
         if self.checkRepeated_Consonants.isChecked():
             for phoneme in consonants:
-                bannedClusters.append(phoneme * 2)
+                banned_clusters.append(phoneme * 2)
 
         if self.checkRepeated_Vowels.isChecked():
             for phoneme in vowels:
-                bannedClusters.append(phoneme * 2)
+                banned_clusters.append(phoneme * 2)
 
         # call word generation method from methods file
-        words = wordListGeneration(
+        words = word_list_generation(
                 vowels,
                 consonants,
                 constraints,
-                syllableProbability,
-                syllableMaximum,
-                bannedClusters,
-                minimumPhonemes,
-                numberWords
+                syllable_probability,
+                syllable_maximum,
+                banned_clusters,
+                minimum_phonemes,
+                number_words
         )
 
         # only execute this section if there are romanization mappings
@@ -352,25 +353,25 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             # initialize variables
             ipa_words = words
             words = []
-            romanizationMap = {}
+            romanization_map = {}
 
             # parse romanization map into dict
-            for set in stripChars(self.textRomanization_Mapping.toPlainText()).split(','):
-                splitSet = set.split(':')
-                ipa_char = splitSet[0].strip()
-                roman_char = splitSet[1].strip()
-                romanizationMap[ipa_char] = roman_char
+            for mapping in strip_chars(self.textRomanization_Mapping.toPlainText()).split(','):
+                split_mapping = mapping.split(':')
+                ipa_char = split_mapping[0].strip()
+                roman_char = split_mapping[1].strip()
+                romanization_map[ipa_char] = roman_char
             
             # apply romanization rules to ipa words
             for ipa_word in ipa_words:
-                roman_word = multiReplace(ipa_word, romanizationMap)
+                roman_word = multi_replace(ipa_word, romanization_map)
                 words.append(f'{roman_word} : {ipa_word}')
 
         # sort alphabetically and convert to string for display
         words.sort()
         words_str = '\n'.join(words)
         self.textGeneratedWords.insertPlainText(words_str)
-        self.appStatusBar.showMessage(f'Generated {numberWords} words successfully!', 5000)
+        self.appStatusBar.showMessage(f'Generated {number_words} words successfully!', 5000)
 
 # application entry point
 if __name__ == '__main__':
