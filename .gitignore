@@ -3,4 +3,5 @@ Configs/
 .idea/
 
 convertui.fish
+WordGenerator_ui.py
 TODO.md

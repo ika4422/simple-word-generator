@@ -38,11 +38,14 @@ The following symbols are used to define syllabic structure with each phoneme se
 
 Class Symbol | Meaning
 -------------|--------
-\*           |Optional phoneme (currently a constant 0.5 probability during generation)
+\*           |Optional phoneme
 V            |Vowel
 C            |Consonant
 
 For example, `*C,V,C` defines a syllable as optionally having a starting vowel, always a vowel and always a final consonant.
+
+### Constraints Probability
+This determines the default probability for an optional phoneme to be included, a value of 0.0 means that no optional phonemes will be generated while one of 1.0 means that optional phonemes will always be generated.
 
 ### Syllable Maximum
 This is the maximum number of syllables in generated words.

@@ -32,7 +32,8 @@ def word_generation(
         consonants,
         constraints,
         syllabic_probability,
-        syllabic_limit
+        syllabic_limit,
+        constraint_probability
     ):
     word = []
 
@@ -46,7 +47,7 @@ def word_generation(
 
             # if phoneme is optional randomly determine if it is generated or not
             if '*' in element:
-                generate = random.choice([True, False])
+                generate = random.random() <= constraint_probability
 
             # if random choice determines generation to not generate the phoneme skip to next phoneme
             if not generate:
@@ -79,7 +80,8 @@ def word_list_generation(
         syllabic_limit,
         banned_clusters,
         minimum_phonemes,
-        num_words
+        num_words,
+        constraint_probability
     ) -> list[str]:
     # initialize variables
     banned_clusters = [s for s in banned_clusters if s != '']
@@ -100,7 +102,8 @@ def word_list_generation(
             consonants,
             constraints,
             syllabic_probability,
-            syllabic_limit
+            syllabic_limit,
+            constraint_probability
         )
 
         # count number of phonemes in the word
@@ -208,6 +211,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 'bannedClusters': self.textBanned_Clusters.toPlainText(),
                 'romanizationMapping': self.textRomanization_Mapping.toPlainText(),
                 'constraints': self.textConstraints.text(),
+                'constraintsProbability': round(self.spinConstraint_Probability.value(), 2),
                 'syllableMaximum': self.spinSyllable_Maximum.value(),
                 'syllableProbability': round(self.spinSyllable_Probability.value(), 2),
                 'minimumPhonemes': self.spinMinimum_Phonemes.value(),
@@ -276,6 +280,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             pass
 
         try:
+            if 'constraintsProbability' in data:
+                self.spinConstraint_Probability.setValue(round(float(data['constraintsProbability']), 2))
             if 'syllableMaximum' in data:
                 self.spinSyllable_Maximum.setValue(int(data['syllableMaximum']))
             if 'syllableProbability' in data:
@@ -317,6 +323,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         vowels = strip_chars(self.textVowels.toPlainText()).split(',')
 
         constraints = strip_chars(self.textConstraints.text().upper()).split(',')
+        constraints_probability = self.spinConstraint_Probability.value()
 
         syllable_probability = self.spinSyllable_Probability.value()
         syllable_maximum = self.spinSyllable_Maximum.value()
@@ -345,7 +352,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 syllable_maximum,
                 banned_clusters,
                 minimum_phonemes,
-                number_words
+                number_words,
+                constraints_probability
         )
 
         # only execute this section if there are romanization mappings

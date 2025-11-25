@@ -26,7 +26,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1000, 838)
+        MainWindow.resize(1200, 900)
         MainWindow.setLocale(QLocale(QLocale.English, QLocale.Canada))
         self.actionFileExport = QAction(MainWindow)
         self.actionFileExport.setObjectName(u"actionFileExport")
@@ -98,6 +98,18 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.textConstraints)
 
+        self.labelConstraint_Probability = QLabel(self.centralwidget)
+        self.labelConstraint_Probability.setObjectName(u"labelConstraint_Probability")
+
+        self.verticalLayout.addWidget(self.labelConstraint_Probability)
+
+        self.spinConstraint_Probability = QDoubleSpinBox(self.centralwidget)
+        self.spinConstraint_Probability.setObjectName(u"spinConstraint_Probability")
+        self.spinConstraint_Probability.setMaximum(1.000000000000000)
+        self.spinConstraint_Probability.setSingleStep(0.050000000000000)
+
+        self.verticalLayout.addWidget(self.spinConstraint_Probability)
+
         self.labelSyllable_Maximum = QLabel(self.centralwidget)
         self.labelSyllable_Maximum.setObjectName(u"labelSyllable_Maximum")
 
@@ -115,6 +127,7 @@ class Ui_MainWindow(object):
 
         self.spinSyllable_Probability = QDoubleSpinBox(self.centralwidget)
         self.spinSyllable_Probability.setObjectName(u"spinSyllable_Probability")
+        self.spinSyllable_Probability.setMaximum(1.000000000000000)
         self.spinSyllable_Probability.setSingleStep(0.050000000000000)
 
         self.verticalLayout.addWidget(self.spinSyllable_Probability)
@@ -183,7 +196,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1000, 30))
+        self.menubar.setGeometry(QRect(0, 0, 1200, 30))
         self.menuFile = QMenu(self.menubar)
         self.menuFile.setObjectName(u"menuFile")
         self.menuHelp = QMenu(self.menubar)
@@ -231,6 +244,7 @@ class Ui_MainWindow(object):
         self.labelBanned_Clusters.setText(QCoreApplication.translate("MainWindow", u"Banned Clusters", None))
         self.labelRomanization_Mapping.setText(QCoreApplication.translate("MainWindow", u"Romanization Mapping", None))
         self.labelConstraints.setText(QCoreApplication.translate("MainWindow", u"Constraints", None))
+        self.labelConstraint_Probability.setText(QCoreApplication.translate("MainWindow", u"Constraint Probability", None))
         self.labelSyllable_Maximum.setText(QCoreApplication.translate("MainWindow", u"Syllable Maximum", None))
         self.spinSyllable_Maximum.setSuffix(QCoreApplication.translate("MainWindow", u" Syllables", None))
         self.labelSyllable_Probability.setText(QCoreApplication.translate("MainWindow", u"Syllable Probability", None))
