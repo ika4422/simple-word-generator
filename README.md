@@ -74,6 +74,7 @@ These can be selected under `File` on the menu bar or with the shortcuts `Ctrl +
   "bannedClusters": "wk,jl,tp",
   "romanizationMapping": "i:i,u:u,e:e,o:o,a:a,m:m,n:n,p:p,t:t,k:k,s:s,w:w,l:l,j:j",
   "constraints": "*C,V,*C",
+  "constraintsProbability": 0.8,
   "syllableMaximum": 3,
   "syllableProbability": 0.75,
   "minimumPhonemes": 3,
