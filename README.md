@@ -40,7 +40,7 @@ This field is optional, however if filled out will provide a romanized translati
 ### Constraints
 Constraints are what determine the structure of a syllable, currently only V and C are supported class symbols (for consonant and vowel respectively) however additional class symbols may be added later.
 
-The following symbols are used to define syllabic structure with each phoneme separated by commas when defining your syllabic structure:
+The following symbols are used to define syllabic structure, with each phoneme separated by commas when defining your syllabic structure:
 
 Class Symbol | Meaning
 -------------|--------
@@ -49,6 +49,8 @@ V            |Vowel
 C            |Consonant
 
 For example, `*C,V,C` defines a syllable as optionally having a starting vowel, always a vowel and always a final consonant.
+
+In addition, when declaring an optional phoneme you can add a decimal value between 0.0 and 1.0 to indicate that phonemes chance of generation, e.g. `0.35*C` declares an optional consonant with a 35% chance of being generated, or `0.8*V` declares an optional vowel with an 80% chance of being generated. A full example would be: `0.25*C,V,0.8*C`.
 
 ### Constraints Probability
 This determines the default probability for an optional phoneme to be included, a value of 0.0 means that no optional phonemes will be generated while one of 1.0 means that optional phonemes will always be generated.

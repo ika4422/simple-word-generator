@@ -44,11 +44,19 @@ def word_generation(
         syllable = []
 
         # generate each phoneme at a time
-        for element in constraints:
+        for phoneme in constraints:
             generate = True
 
+            # find if phoneme contains specific probability
+            try:
+                specific_probability = round(float(re.findall(r"[-+]?(?:\d*\.*\d+)", phoneme)[0]), 2)
+                if 0.0 < specific_probability and specific_probability < 1.0:
+                    constraint_probability = specific_probability
+            except:
+                pass
+
             # if phoneme is optional randomly determine if it is generated or not
-            if '*' in element:
+            if '*' in phoneme:
                 generate = random.random() <= constraint_probability
 
             # if random choice determines generation to not generate the phoneme skip to next phoneme
@@ -56,10 +64,10 @@ def word_generation(
                 continue
 
             # append randomly selected phoneme according to related class symbol, currently only supports predefined class symbols
-            if 'V' in element:
+            if 'V' in phoneme:
                 syllable.append(random.choice(vowels))
 
-            if 'C' in element:
+            if 'C' in phoneme:
                 syllable.append(random.choice(consonants))
         
         # if a syllable was determines append it to the word list
