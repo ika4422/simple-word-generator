@@ -15,6 +15,12 @@ This tool was developed on/for Python v3.13.7 and uses the Pyside6 library for t
 ```
 pip install -r requirements.txt
 ```
+However if you are using a system distribution the Python packages must be manually installed using your package manager.
+
+If on Linux, to execute the application without using a terminal you must make it executable with the following command:
+```
+chmod +x main.py
+```
 
 ## Usage
 This tool is extremely easy to use and the following short guide will explain how each input field is formatted, saving/loading configuration files and exporting generated word lists.
